@@ -291,7 +291,7 @@ def launch_demo(args, editx_tab):
     """Launch the gradio demo"""
     with gr.Blocks(theme=gr.themes.Soft(), title="🎙️ Step-Audio-EditX") as demo:
         gr.Markdown("## 🎙️ Step-Audio-EditX")
-        gr.Markdown("Audio Editing and Zero-Shot Cloning using Step-Audio_EditX")
+        gr.Markdown("Audio Editing and Zero-Shot Cloning using Step-Audio-EditX")
 
         # Register components
         editx_tab.register_components()
