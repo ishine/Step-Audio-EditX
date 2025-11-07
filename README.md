@@ -61,7 +61,7 @@ For more examples, see [demo page](https://stepaudiollm.github.io/step-audio-edi
 ### 📜 Requirements
 The following table shows the requirements for running Step-Audio-EditX model (batch size = 1):
 
-|     Model    |  Setting<br/>(sample frequency) | GPU Minimum Memory  |
+|     Model    |  Setting<br/>(sample frequency) | GPU Optimal Memory  |
 |------------|--------------------------------|----------------|
 | Step-Audio-EditX   |        41.6Hz          |       32 GB        |
 
@@ -71,7 +71,7 @@ The following table shows the requirements for running Step-Audio-EditX model (b
 
 ### 🔧 Dependencies and Installation
 - Python >= 3.10.0 (Recommend to use [Anaconda](https://www.anaconda.com/download/#linux) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html))
-- [PyTorch >= 2.3-cu121](https://pytorch.org/)
+- [PyTorch >= 2.4.1-cu121](https://pytorch.org/)
 - [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads)
 
 ```bash
