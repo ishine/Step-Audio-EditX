@@ -19,12 +19,13 @@ from typing import Optional, Dict
 from llmcompressor.modifiers.awq import AWQModifier
 from llmcompressor.modifiers.smoothquant import SmoothQuantModifier
 from llmcompressor import oneshot
+os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True'
 import torch
 from datasets import load_dataset
 
 # Set longer timeout for dataset downloads
-os.environ.setdefault('HF_DATASETS_TIMEOUT', '120')
-os.environ.setdefault('REQUESTS_TIMEOUT', '120')
+# os.environ.setdefault('HF_DATASETS_TIMEOUT', '120')
+# os.environ.setdefault('REQUESTS_TIMEOUT', '120')
 os.environ['TORCH_FX_DISABLE'] = '1'  # Disable torch.fx completely
 os.environ['CUDA_LAUNCH_BLOCKING'] = '1'  # Better error reporting
 
@@ -76,9 +77,18 @@ def get_awq_recipe(
         AWQ configuration list
     """
     if ignore_layers is None:
-        ignore_layers = ["lm_head"]
+        ignore_layers = [
+            "lm_head",
+            "embed_tokens",
+            "model.embed_tokens", 
+            "model.norm",
+            "norm",
+            "output",
+            "classifier"
+        ]
     if not scheme:
         awq_modifier = AWQModifier(
+            offload_device=torch.device("cpu"),
             scheme=None,
             ignore=ignore_layers,
             targets=["Linear"],
