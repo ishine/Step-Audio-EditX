@@ -142,8 +142,12 @@ class UnifiedModelLoader:
             return {
                 "quantization_config": bnb_config
             }, False  # INT4 quantization handles torch_dtype internally, don't set it again
+        elif quantization_config == "awq-4bit":
+            # AWQ 4-bit quantization - requires special model path handling
+            self.logger.info(f"🔧 AWQ 4-bit quantization enabled")
+            return {}, True  # No special quantization_config, but allow torch_dtype setting
         else:
-            raise ValueError(f"Unsupported quantization config: {quantization_config}. Supported: 'int4', 'int8'")
+            raise ValueError(f"Unsupported quantization config: {quantization_config}. Supported: 'int4', 'int8', 'awq-4bit'")
 
     def load_transformers_model(
         self,
@@ -189,10 +193,9 @@ class UnifiedModelLoader:
                 # Add torch_dtype based on quantization requirements
                 if should_set_torch_dtype and kwargs.get("torch_dtype") is not None:
                     load_kwargs["torch_dtype"] = kwargs.get("torch_dtype")
-
-                # Standard loading
+                
                 model = AutoModelForCausalLM.from_pretrained(
-                    model_path,
+                    os.path.join(model_path, quantization_config) if quantization_config == "awq-4bit" else model_path,
                     **load_kwargs
                 )
                 tokenizer = AutoTokenizer.from_pretrained(
@@ -220,12 +223,11 @@ class UnifiedModelLoader:
                 if should_set_torch_dtype and kwargs.get("torch_dtype") is not None:
                     load_kwargs["torch_dtype"] = kwargs.get("torch_dtype")
 
-                # Standard loading
-                model = MSAutoModelForCausalLM.from_pretrained(
-                    model_path,
+                model = AutoModelForCausalLM.from_pretrained(
+                    os.path.join(model_path, quantization_config) if quantization_config == "awq-4bit" else model_path,
                     **load_kwargs
                 )
-                tokenizer = MSAutoTokenizer.from_pretrained(
+                tokenizer = AutoTokenizer.from_pretrained(
                     model_path,
                     trust_remote_code=True,
                     local_files_only=True
@@ -242,15 +244,15 @@ class UnifiedModelLoader:
                 }
 
                 # Add quantization configuration if specified
+                # Add quantization configuration if specified
                 load_kwargs.update(quantization_kwargs)
 
                 # Add torch_dtype based on quantization requirements
                 if should_set_torch_dtype and kwargs.get("torch_dtype") is not None:
                     load_kwargs["torch_dtype"] = kwargs.get("torch_dtype")
 
-                # Standard loading
                 model = AutoModelForCausalLM.from_pretrained(
-                    model_path,
+                    os.path.join(model_path, quantization_config) if quantization_config == "awq-4bit" else model_path,
                     **load_kwargs
                 )
                 tokenizer = AutoTokenizer.from_pretrained(

@@ -381,9 +381,9 @@ if __name__ == "__main__":
         "--quantization",
         type=str,
         default=None,
-        choices=["int4", "int8"],
+        choices=["int4", "int8", "awq-4bit"],
         help="Enable quantization for the TTS model to reduce memory usage."
-             "Choices: int4 (online), int8 (online)."
+             "Choices: int4 (online), int8 (online), awq-4bit (AWQ 4-bit quantization)."
              "When quantization is enabled, data types are handled automatically by the quantization library."
     )
     parser.add_argument(

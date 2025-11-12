@@ -399,6 +399,20 @@ docker run --rm --gpus all \
 ```
 
 
+### 🔄 Model Quantization (Optional)
+
+For users with limited GPU memory, you can create quantized versions of the model to reduce memory requirements:
+
+```bash
+# Create an AWQ 4-bit quantized model
+python quantization/awq_quantize.py --model_path path/to/Step-Audio-EditX
+
+# Advanced quantization options
+python quantization/awq_quantize.py
+```
+
+For detailed quantization options and parameters, see [quantization/README.md](quantization/README.md).
+
 #### Launch Web Demo
 Start a local server for online inference.
 Assume you have one GPU with at least 12GB memory available and have already downloaded all the models.
@@ -407,7 +421,7 @@ Assume you have one GPU with at least 12GB memory available and have already dow
 # Step-Audio-EditX demo
 python app.py --model-path where_you_download_dir --model-source local
 
-# Memory-efficient options with quantization
+# Memory-efficient options with runtime quantization
 # For systems with limited GPU memory, you can use quantization to reduce memory usage:
 
 # INT8 quantization
@@ -415,6 +429,9 @@ python app.py --model-path where_you_download_dir --model-source local --quantiz
 
 # INT4 quantization
 python app.py --model-path where_you_download_dir --model-source local --quantization int4
+
+# Using pre-quantized AWQ models
+python app.py --model-path path/to/quantized/model --model-source local --quantization awq-4bit
 
 # Example with custom settings:
 python app.py --model-path where_you_download_dir --model-source local --torch-dtype float16 --enable-auto-transcribe
