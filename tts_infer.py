@@ -134,7 +134,7 @@ class StepAudioEditX:
         logger.info("Starting audio editing process")
 
         # Input validation
-        if not prompt_text_input or prompt_text_input.strip() == "":
+        if edit_type not in ['denoise', 'vad'] and (not prompt_text_input or prompt_text_input.strip() == ""):
             error_msg = "[Error] Uploaded text cannot be empty."
             logger.error(error_msg)
             return [{"role": "user", "content": error_msg}], state

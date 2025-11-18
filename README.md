@@ -443,24 +443,74 @@ python app.py --model-path where_you_download_dir --model-source local --torch-d
 
 ```bash
 # zero-shot cloning
+# The path of the generated audio file is output/fear_zh_female_prompt_cloned.wav
 python3 tts_infer.py \
     --model-path where_you_download_dir \
-    --output-dir ./output \
-    --prompt-text "your prompt text"\
-    --prompt-audio your_prompt_audio_path \
-    --generated-text "your target text" \
-    --edit-type "clone"
+    --prompt-text "我总觉得，有人在跟着我，我能听到奇怪的脚步声。"\
+    --prompt-audio "examples/fear_zh_female_prompt.wav"\
+    --generated-text "可惜没有如果，已经发生的事情终究是发生了。" \
+    --edit-type "clone" \
+    --output-dir ./output 
 
 # edit
+# There will be one or multiple wave files corresponding to each edit iteration, for example: output/fear_zh_female_prompt_edited_iter1.wav, output/fear_zh_female_prompt_edited_iter2.wav, ...
+# emotion; fear
 python3 tts_infer.py \
     --model-path where_you_download_dir \
-    --output-dir ./output \
-    --prompt-text "your promt text" \
-    --prompt-audio your_prompt_audio_path \
-    --generated-text "" \ # for para-linguistic editing, you need to specify the generatedd text
+    --prompt-text "我总觉得，有人在跟着我，我能听到奇怪的脚步声。" \
+    --prompt-audio "examples/fear_zh_female_prompt.wav"\
     --edit-type "emotion" \
-    --edit-info "sad" \
-    --n-edit-iter 2
+    --edit-info "fear" \
+    --n-edit-iter 2 \
+    --output-dir ./output 
+
+# style; whisper
+# for style whisper, the edit iteration num should be set bigger than 1 to get better results.
+python3 tts_infer.py \
+    --model-path where_you_download_dir \
+    --prompt-text "比如在工作间隙，做一些简单的伸展运动，放松一下身体，这样，会让你更有精力." \
+    --prompt-audio "examples/whisper_prompt.wav" \
+    --edit-type "style" \
+    --edit-info "whisper" \
+    --n-edit-iter 2 \
+    --output-dir ./output 
+
+# paraliguistic 
+# supported tags, Breathing, Laughter, Suprise-oh, Confirmation-en, Uhm, Suprise-ah, Suprise-wa, Sigh, Question-ei, Dissatisfaction-hnn
+python3 tts_infer.py \
+    --model-path where_you_download_dir \
+    --prompt-text "我觉得这个计划大概是可行的，不过还需要再仔细考虑一下。" \
+    --prompt-audio "examples/paralingustic_prompt.wav" \
+    --generated-text "我觉得这个计划大概是可行的，[Uhm]不过还需要再仔细考虑一下。" \
+    --edit-type "paralinguistic" \
+    --output-dir ./output 
+
+# denoise
+# Prompt text is not needed.
+python3 tts_infer.py \
+    --model-path where_you_download_dir \
+    --prompt-audio "examples/denoise_prompt.wav"\
+    --edit-type "denoise" \
+    --output-dir ./output 
+
+# vad 
+# Prompt text is not needed.
+python3 tts_infer.py \
+    --model-path where_you_download_dir \
+    --prompt-audio "examples/vad_prompt.wav" \
+    --edit-type "vad" \
+    --output-dir ./output 
+
+# speed
+# supported edit-info: faster, slower, more faster, more slower
+python3 tts_infer.py \
+    --model-path where_you_download_dir \
+    --prompt-text "上次你说鞋子有点磨脚，我给你买了一双软软的鞋垫。" \
+    --prompt-audio "examples/speed_prompt.wav" \
+    --edit-type "speed" \
+    --edit-info "faster" \
+    --output-dir ./output 
+
 ```
 
 ## Technical Details
