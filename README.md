@@ -530,8 +530,220 @@ Audio-Edit enables iterative control over emotion and speaking style across all 
 - Step-Audio-EditX demonstrates superior performance over Minimax and Doubao in both zero-shot cloning and emotion control.
 - Emotion editing of Step-Audio-EditX significantly improves the emotion-controlled audio outputs of all three models after just one iteration. With further iterations, their overall performance continues to improve.
 
-
+<div align="center">
 <img src="assets/emotion-eval.png" width=800 >
+</div>
+
+### Generalization on Closed-Source Models.
+- Step-Audio-EditX still achieves outstanding results on closed-source models, such as GPT-4o-mini-TTS, Eleven_Multilingual_v2, Doubao-Seed-TTS-2.0, and MiniMax-speech-2.6-hd, as shown in the table below (**sub** means Substitution).
+
+- For emotion and speaking style editing task, the intensity of emotion and speaking style is markedly enhanced as the number of iterative rounds progresses.
+
+- For the paralinguistic editing task, Step-Audio-EditX achieves comparable paralinguistic fidelity after a single iteration, matching the performance of native content synthesized directly by closed-source models .
+
+
+<div align="center">
+
+  <table border="1" cellspacing="0" cellpadding="5" style="border-collapse: collapse; font-family: sans-serif; width: auto;">
+    <caption><b>Table: Generalization of Emotion, Speaking Style, and Paralinguistic Editing on Closed-Source Models.</b></caption>
+    <thead>
+      <tr>
+        <th rowspan="2" align="center" style="vertical-align: bottom;">Language</th>
+        <th rowspan="2" align="center" style="vertical-align: bottom;">Model</th>
+        <th colspan="4" style="border-bottom: 1px solid black;">Emotion &uarr;</th>
+        <th colspan="4" style="border-bottom: 1px solid black;">Speaking Style &uarr;</th>
+        <th colspan="3" style="border-bottom: 1px solid black; border-left: 1px solid black;">Paralinguistic &uarr;</th>
+      </tr>
+      <tr>
+        <th>Iter<sub>0</sub></th>
+        <th>Iter<sub>1</sub></th>
+        <th>Iter<sub>2</sub></th>
+        <th>Iter<sub>3</sub></th>
+        <th style="border-left: 1px solid #ccc;">Iter<sub>0</sub></th>
+        <th>Iter<sub>1</sub></th>
+        <th>Iter<sub>2</sub></th>
+        <th>Iter<sub>3</sub></th>
+        <th style="border-left: 1px solid black;">Iter<sub>0</sub></th>
+        <th>sub</th>
+        <th>Iter<sub>1</sub></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="4" align="center" style="font-weight: bold; vertical-align: middle;">Chinese</td>
+        <td align="left">MiniMax-2.6-hd</td>
+        <td align="center">71.6</td>
+        <td align="center">78.6</td>
+        <td align="center">81.2</td>
+        <td align="center"><b>83.4</b></td>
+        <td align="center" style="border-left: 1px solid #ccc;">36.7</td>
+        <td align="center">58.8</td>
+        <td align="center">63.1</td>
+        <td align="center"><b>67.3</b></td>
+        <td align="center" style="border-left: 1px solid black;">1.73</td>
+        <td align="center">2.80</td>
+        <td align="center">2.90</td>
+      </tr>
+      <tr>
+        <td align="left">Doubao-Seed-TTS-2.0</td>
+        <td align="center">67.4</td>
+        <td align="center">77.8</td>
+        <td align="center">80.6</td>
+        <td align="center"><b>82.8</b></td>
+        <td align="center" style="border-left: 1px solid #ccc;">38.2</td>
+        <td align="center">60.2</td>
+        <td align="center"><b>65.0</b></td>
+        <td align="center">64.9</td>
+        <td align="center" style="border-left: 1px solid black;">1.67</td>
+        <td align="center">2.81</td>
+        <td align="center">2.90</td>
+      </tr>
+      <tr>
+        <td align="left">GPT-4o-mini-TTS</td>
+        <td align="center">62.6</td>
+        <td align="center">76.0</td>
+        <td align="center">77.0</td>
+        <td align="center"><b>81.8</b></td>
+        <td align="center" style="border-left: 1px solid #ccc;">45.9</td>
+        <td align="center">64.0</td>
+        <td align="center">65.7</td>
+        <td align="center"><b>69.7</b></td>
+        <td align="center" style="border-left: 1px solid black;">1.71</td>
+        <td align="center">2.88</td>
+        <td align="center">2.93</td>
+      </tr>
+      <tr style="border-bottom: 1px solid black;">
+        <td align="left">ElevenLabs-v2</td>
+        <td align="center">60.4</td>
+        <td align="center">74.6</td>
+        <td align="center">77.4</td>
+        <td align="center"><b>79.2</b></td>
+        <td align="center" style="border-left: 1px solid #ccc;">43.8</td>
+        <td align="center">63.3</td>
+        <td align="center">69.7</td>
+        <td align="center"><b>70.8</b></td>
+        <td align="center" style="border-left: 1px solid black;">1.70</td>
+        <td align="center">2.71</td>
+        <td align="center">2.92</td>
+      </tr>
+      <tr>
+        <td rowspan="4" align="center" style="font-weight: bold; vertical-align: middle;">English</td>
+        <td align="left">MiniMax-2.6-hd</td>
+        <td align="center">55.0</td>
+        <td align="center">64.0</td>
+        <td align="center">64.2</td>
+        <td align="center"><b>66.4</b></td>
+        <td align="center" style="border-left: 1px solid #ccc;">51.9</td>
+        <td align="center">60.3</td>
+        <td align="center">62.3</td>
+        <td align="center"><b>64.3</b></td>
+        <td align="center" style="border-left: 1px solid black;">1.72</td>
+        <td align="center">2.87</td>
+        <td align="center">2.88</td>
+      </tr>
+      <tr>
+        <td align="left">Doubao-Seed-TTS-2.0</td>
+        <td align="center">53.8</td>
+        <td align="center">65.8</td>
+        <td align="center">65.8</td>
+        <td align="center"><b>66.2</b></td>
+        <td align="center" style="border-left: 1px solid #ccc;">47.0</td>
+        <td align="center">62.0</td>
+        <td align="center"><b>62.7</b></td>
+        <td align="center">62.3</td>
+        <td align="center" style="border-left: 1px solid black;">1.72</td>
+        <td align="center">2.75</td>
+        <td align="center">2.92</td>
+      </tr>
+      <tr>
+        <td align="left">GPT-4o-mini-TTS</td>
+        <td align="center">56.8</td>
+        <td align="center">61.4</td>
+        <td align="center">64.8</td>
+        <td align="center"><b>65.2</b></td>
+        <td align="center" style="border-left: 1px solid #ccc;">52.3</td>
+        <td align="center">62.3</td>
+        <td align="center">62.4</td>
+        <td align="center"><b>63.4</b></td>
+        <td align="center" style="border-left: 1px solid black;">1.90</td>
+        <td align="center">2.90</td>
+        <td align="center">2.88</td>
+      </tr>
+      <tr style="border-bottom: 1px solid black;">
+        <td align="left">ElevenLabs-v2</td>
+        <td align="center">51.0</td>
+        <td align="center">61.2</td>
+        <td align="center">64.0</td>
+        <td align="center"><b>65.2</b></td>
+        <td align="center" style="border-left: 1px solid #ccc;">51.0</td>
+        <td align="center">62.1</td>
+        <td align="center">62.6</td>
+        <td align="center"><b>64.0</b></td>
+        <td align="center" style="border-left: 1px solid black;">1.93</td>
+        <td align="center">2.87</td>
+        <td align="center">2.88</td>
+      </tr>
+      <tr>
+        <td rowspan="4" align="center" style="font-weight: bold; vertical-align: middle;">Average</td>
+        <td align="left">MiniMax-2.6-hd</td>
+        <td align="center">63.3</td>
+        <td align="center">71.3</td>
+        <td align="center">72.7</td>
+        <td align="center"><b>74.9</b></td>
+        <td align="center" style="border-left: 1px solid #ccc;">44.2</td>
+        <td align="center">59.6</td>
+        <td align="center">62.7</td>
+        <td align="center"><b>65.8</b></td>
+        <td align="center" style="border-left: 1px solid black;">1.73</td>
+        <td align="center">2.84</td>
+        <td align="center">2.89</td>
+      </tr>
+      <tr>
+        <td align="left">Doubao-Seed-TTS-2.0</td>
+        <td align="center">60.6</td>
+        <td align="center">71.8</td>
+        <td align="center">73.2</td>
+        <td align="center"><b>74.5</b></td>
+        <td align="center" style="border-left: 1px solid #ccc;">42.6</td>
+        <td align="center">61.1</td>
+        <td align="center"><b>63.9</b></td>
+        <td align="center">63.6</td>
+        <td align="center" style="border-left: 1px solid black;">1.70</td>
+        <td align="center">2.78</td>
+        <td align="center">2.91</td>
+      </tr>
+      <tr>
+        <td align="left">GPT-4o-mini-TTS</td>
+        <td align="center">59.7</td>
+        <td align="center">68.7</td>
+        <td align="center">70.9</td>
+        <td align="center"><b>73.5</b></td>
+        <td align="center" style="border-left: 1px solid #ccc;">49.1</td>
+        <td align="center">63.2</td>
+        <td align="center">64.1</td>
+        <td align="center"><b>66.6</b></td>
+        <td align="center" style="border-left: 1px solid black;">1.81</td>
+        <td align="center">2.89</td>
+        <td align="center">2.90</td>
+      </tr>
+      <tr>
+        <td align="left">ElevenLabs-v2</td>
+        <td align="center">55.7</td>
+        <td align="center">67.9</td>
+        <td align="center">70.7</td>
+        <td align="center"><b>72.2</b></td>
+        <td align="center" style="border-left: 1px solid #ccc;">47.4</td>
+        <td align="center">62.7</td>
+        <td align="center">66.1</td>
+        <td align="center"><b>67.4</b></td>
+        <td align="center" style="border-left: 1px solid black;">1.82</td>
+        <td align="center">2.79</td>
+        <td align="center">2.90</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
 
 
 ## Acknowledgements
