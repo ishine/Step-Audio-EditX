@@ -348,7 +348,7 @@ class CosyVoice:
                  chunk_size_list: List = [15, 24, 48],  # (0.6s, 0.96s, 1.92s) 
                  mel_cache_len: int = 8,
                  n_timesteps: int = 10,
-                 enable_cuda_graph: bool = True,
+                 enable_cuda_graph: bool = False,
                  dtype=torch.float32,
                  ):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
